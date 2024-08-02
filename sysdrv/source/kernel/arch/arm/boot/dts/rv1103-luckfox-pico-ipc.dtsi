@@ -150,6 +150,12 @@
 				remote-endpoint = <&sc530ai_out>;
 				data-lanes = <1 2>;
 			};
+			
+			csi_dphy_input3: endpoint@3 {
+				reg = <3>;
+				remote-endpoint = <&imx290_out>;
+				data-lanes = <1 2>;
+			};
 		};
 
 		port@1 {
@@ -229,6 +235,29 @@
 		port {
 			sc530ai_out: endpoint {
 				remote-endpoint = <&csi_dphy_input2>;
+				data-lanes = <1 2>;
+			};
+		};
+	};
+
+	imx327: imx290@1a {
+		compatible = "sony,imx290";
+		status = "okay";
+		reg = <0x1a>;
+		clocks = <&cru MCLK_REF_MIPI0>;
+		clock-names = "xvclk";
+		/* conflict with csi-ctl-gpios */
+		reset-gpios = <&gpio1 RK_PC0 GPIO_ACTIVE_HIGH>;
+		pwdn-gpios = <&gpio3 RK_PC5 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&mipi_refclk_out0>;
+		rockchip,camera-module-index = <0>;
+		rockchip,camera-module-facing = "back";
+		rockchip,camera-module-name = "TongJu";
+		rockchip,camera-module-lens-name = "CHT842-MD";
+		port {
+			imx290_out: endpoint {
+				remote-endpoint = <&csi_dphy_input3>;
 				data-lanes = <1 2>;
 			};
 		};
